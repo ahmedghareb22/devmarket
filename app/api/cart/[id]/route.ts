@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -18,7 +19,7 @@ export async function DELETE(
 
     // Verify the cart item belongs to the user
     const cartItem = await prisma.cartItem.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!cartItem || cartItem.userId !== session.user.id) {
@@ -29,7 +30,7 @@ export async function DELETE(
     }
 
     await prisma.cartItem.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });

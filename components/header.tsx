@@ -6,9 +6,17 @@ import { useSession } from "next-auth/react";
 import { logout } from "@/app/actions/auth";
 import { Menu, X, ShoppingCart, User } from "lucide-react";
 
+interface SessionUser {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  role?: string;
+}
+
 export function Header() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const user = session?.user as SessionUser | undefined;
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -28,13 +36,13 @@ export function Header() {
               Courses
             </Link>
 
-            {session?.user?.role === "SELLER" && (
+            {user?.role === "SELLER" && (
               <Link href="/seller/dashboard" className="text-gray-600 hover:text-gray-900 transition">
                 Dashboard
               </Link>
             )}
 
-            {session?.user ? (
+            {user ? (
               <div className="flex items-center space-x-4">
                 <Link href="/cart" className="relative text-gray-600 hover:text-gray-900 transition">
                   <ShoppingCart size={20} />
@@ -45,7 +53,7 @@ export function Header() {
 
                 <div className="flex items-center space-x-2">
                   <User size={20} className="text-gray-600" />
-                  <span className="text-sm text-gray-700">{session.user.name}</span>
+                  <span className="text-sm text-gray-700">{user.name}</span>
                 </div>
 
                 <button
@@ -89,13 +97,13 @@ export function Header() {
               Courses
             </Link>
 
-            {session?.user?.role === "SELLER" && (
+            {user?.role === "SELLER" && (
               <Link href="/seller/dashboard" className="block text-gray-600 hover:text-gray-900">
                 Dashboard
               </Link>
             )}
 
-            {session?.user ? (
+            {user ? (
               <>
                 <Link href="/cart" className="block text-gray-600 hover:text-gray-900">
                   Cart

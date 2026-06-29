@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -17,7 +18,7 @@ export async function POST(
     }
 
     const course = await prisma.course.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!course || course.authorId !== session.user.id) {
@@ -28,7 +29,7 @@ export async function POST(
     }
 
     const updated = await prisma.course.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         status: "PUBLISHED",
         publishedAt: new Date(),

@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +23,6 @@ export default function CheckoutSuccessPage() {
           return;
         }
 
-        // Verify payment and complete order
         const response = await fetch("/api/checkout/verify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -92,5 +90,19 @@ export default function CheckoutSuccessPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-md mx-auto px-4 py-12 text-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      }
+    >
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }

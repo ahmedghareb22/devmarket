@@ -63,6 +63,5 @@ export default {
   },
   pages: {
     signIn: "/auth/login",
-    signUp: "/auth/register",
   },
 } satisfies NextAuthConfig;

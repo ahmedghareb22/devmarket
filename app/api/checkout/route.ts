@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { generateOrderNumber } from "@/lib/utils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-12-18.acacia",
+  apiVersion: "2026-06-24.dahlia",
 });
 
 export async function POST(request: NextRequest) {
