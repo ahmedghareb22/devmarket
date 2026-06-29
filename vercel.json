@@ -1,0 +1,26 @@
+{
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database connection string"
+    },
+    "NEXTAUTH_SECRET": {
+      "description": "Secret key for NextAuth.js encryption"
+    },
+    "NEXTAUTH_URL": {
+      "description": "Base URL for NextAuth.js"
+    },
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": {
+      "description": "Stripe publishable key (public)"
+    },
+    "STRIPE_SECRET_KEY": {
+      "description": "Stripe secret key (private)"
+    },
+    "STRIPE_WEBHOOK_SECRET": {
+      "description": "Stripe webhook secret for payment events"
+    }
+  }
+}
